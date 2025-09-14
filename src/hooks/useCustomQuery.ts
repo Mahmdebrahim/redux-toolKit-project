@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
-import axiosInstance from "../../config/axios.config"
 import type { AxiosRequestConfig } from "axios"
+import axiosInstance from "../config/axios.config";
+
 interface IPropsQuery {
     queryKey: string[],
     url: string,

@@ -1,56 +1,56 @@
 import { ShoppingCart } from "lucide-react";
 import Button from "./ui/Button";
-import useCustomQuery from "./hooks/useCustomQuery";
 import type { IProduct } from "../interfaces";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "../app/features/cart/cartSlice";
 
-function ProductCard() {
-  const { data, isLoading } = useCustomQuery({
-    queryKey: ["ProductList"],
-    url: `/products?limit=15&select=title,price,thumbnail`,
-  });
-  console.log(data);
-  if (isLoading) return <h3>Loading...</h3>;
 
-  //render products
-  const renderProducts = data.products.map((product: IProduct ) => (
-    <div key={product.id}>
-      <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
-        <a href="#">
-          <img
-            className="object-cover"
-            src={product.thumbnail}
-            alt={product.title}
-          />
-          <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
-            39% OFF
-          </span>
-        </a>
-        <div className="mt-4 px-5 pb-5">
+interface ProductCardProps {
+  product: IProduct,
+}
+const ProductCard: React.FC<ProductCardProps> = ({product}) => {
+  const {id,price,thumbnail,title} = product;
+  const dispatch = useDispatch();
+  
+  return (
+    <div key={id}>
+        <div className="relative flex w-full max-h-fit max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
           <a href="#">
-            <h5 className="text-xl tracking-tight text-slate-900">
-              {product.title.length >= 20 ? `${product.title.slice(0, 20)}...` : product.title}
-            </h5>
+            <img className="object-cover" src={thumbnail} alt={title} />
+            <span className="absolute top-0 left-0 m-2 rounded-full bg-indigo-500 px-2 text-center text-sm font-medium text-white">
+              39% OFF
+            </span>
           </a>
-          <div className="mt-2 mb-5 flex items-center justify-between">
-            <p>
-              <span className="text-3xl font-bold text-slate-900">
-                ${product.price}
-              </span>
-              <span className="text-sm text-slate-900 line-through">$650</span>
-            </p>
+          <div className="mt-4 px-5 pb-5">
+            <a href="#">
+              <h5 className="text-l tracking-tight text-slate-900">
+                {title.length >= 20 ? `${title.slice(0, 20)}...` : title}
+              </h5>
+            </a>
+            <div className="mt-2 mb-5 flex items-center justify-between">
+              <p>
+                <span className="text-2xl font-bold text-stone-900">
+                  ${price}
+                </span>
+                <span className="text-sm text-slate-500 line-through">
+                  $650
+                </span>
+              </p>
+            </div>
+            <Button
+              fullWidth
+              className="py-1.5 gap-1.5 cursor-pointer"
+              onClick={() =>
+                dispatch(addItemToCart(product))
+              }
+            >
+              <ShoppingCart />
+              Add to cart
+            </Button>
           </div>
-          <Button fullWidth className="py-1.5 gap-1.5 cursor-pointer" onClick={() => {}}>
-            <ShoppingCart />
-            Add to cart
-          </Button>
         </div>
       </div>
-    </div>
-  ));
-  return (
-    // {data ? (renderProducts ): "we"}
-    renderProducts
   );
-}
+};
 
 export default ProductCard;
