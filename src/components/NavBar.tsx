@@ -1,18 +1,12 @@
 import { NavLink } from "react-router-dom";
 import {  LogIn, ShoppingBag, ShoppingBasket,} from 'lucide-react';
 import Button from "./ui/Button";
+import { useSelector } from "react-redux";
+import type { RootState } from "../app/store";
+
 
 const Navbar = () => {
-  // const { pathname } = useLocation();
-  // const storageKey = "LoggedInUser";
-  // const userDataString = localStorage.getItem(storageKey);
-  // const userData = userDataString ? JSON.parse(userDataString) : null;
-  // const onLogout = () => {
-  //   localStorage.removeItem(storageKey);
-  //   setTimeout(() => {
-  //     location.replace(pathname);
-  //   }, 1500);
-  // };
+ const {cartItems} = useSelector(({cart}: RootState) => cart) 
   return (
     <nav className="max-w-l mx-auto mt-0 bg-white mb-10 px-9 py-2 rounded-md">
       <ul className="flex items-center flex-wrp gap-2 md:justify-between">
@@ -31,8 +25,10 @@ const Navbar = () => {
               </li>
               <li className="duration-200 relative hover:text-indigo-500 text-s">
                 <NavLink to="/cart">
-                <ShoppingBasket /> 
-                <span className="absolute bottom-3.5 left-4 text-center text-xs w-4 h-4 rounded-full bg-indigo-500 text-white">0</span>
+                 <ShoppingBasket /> 
+                 <span className="absolute bottom-3.5 left-4 text-center text-xs w-4 h-4 rounded-full bg-indigo-500 text-white">
+                   {cartItems.length}
+                  </span>
                 </NavLink>
               </li>
               <li className="">

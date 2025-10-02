@@ -23,4 +23,5 @@ const cartSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { addItemToCart } = cartSlice.actions
+// export const selector = {state: RootSate}
 export default cartSlice.reducer

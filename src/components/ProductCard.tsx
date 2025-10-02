@@ -9,7 +9,7 @@ interface ProductCardProps {
   product: IProduct,
 }
 const ProductCard: React.FC<ProductCardProps> = ({product}) => {
-  const {id,price,thumbnail,title} = product;
+  const {id,price,thumbnail,title,qty} = product;
   const dispatch = useDispatch();
   
   return (
@@ -36,6 +36,9 @@ const ProductCard: React.FC<ProductCardProps> = ({product}) => {
                   $650
                 </span>
               </p>
+              <div className="text-indigo-500 flex items-center">
+               {qty ? ` quntity: ${qty}` : ""}
+              </div>
             </div>
             <Button
               fullWidth
